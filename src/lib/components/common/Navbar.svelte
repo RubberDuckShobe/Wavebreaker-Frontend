@@ -11,7 +11,7 @@
 		faUser
 	} from '@fortawesome/free-solid-svg-icons';
 
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { dev } from '$app/environment';
 
 	const date = new Date();
@@ -37,51 +37,51 @@
 		<a
 			href="/"
 			class="btn btn-sm btn-ghost normal-case"
-			class:text-primary={$page.url.pathname == '/'}
+			class:text-primary={page.url.pathname == '/'}
 		>
 			<Fa class="mr-2" icon={faHome} /> Home
 		</a>
 		<a
 			href="/users/search"
 			class="btn btn-sm btn-ghost normal-case"
-			class:text-primary={$page.url.pathname.startsWith('/users')}
+			class:text-primary={page.url.pathname.startsWith('/users')}
 		>
 			<Fa class="mr-2" icon={faUser} /> Users
 		</a>
 		<a
 			href="/songs/search"
 			class="btn btn-sm btn-ghost normal-case"
-			class:text-primary={$page.url.pathname.startsWith('/songs')}
+			class:text-primary={page.url.pathname.startsWith('/songs')}
 		>
 			<Fa class="mr-2" icon={faMusic} /> Songs
 		</a>
 		<a
 			href="/rankings/users"
 			class="btn btn-sm btn-ghost normal-case"
-			class:text-primary={$page.url.pathname.startsWith('/rankings')}
+			class:text-primary={page.url.pathname.startsWith('/rankings')}
 		>
 			<Fa class="mr-2" icon={faMedal} /> Rankings
 		</a>
 	</div>
 	<div class="navbar-end">
-		{#if $page.data.user}
+		{#if page.data.user}
 			<div class="dropdown dropdown-end">
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<div tabindex="0" class="btn btn-ghost normal-case">
 					<div class="avatar">
 						<div class="w-8 h-8 rounded-lg">
-							<img src={$page.data.user.avatarUrl} alt="Avatar of {$page.data.user.username}" />
+							<img src={page.data.user.avatarUrl} alt="Avatar of {page.data.user.username}" />
 						</div>
 					</div>
-					<div class="text-base ml-4">{$page.data.user.username}</div>
+					<div class="text-base ml-4">{page.data.user.username}</div>
 				</div>
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52">
 					<li class="menu-title">
-						<span>{$page.data.user.username}</span>
+						<span>{page.data.user.username}</span>
 					</li>
 					<li>
-						<a href="/users/{$page.data.user.id}"><Fa icon={faUser} class="mr-1" /> Profile</a>
+						<a href="/users/{page.data.user.id}"><Fa icon={faUser} class="mr-1" /> Profile</a>
 					</li>
 					<li>
 						<a href="/installguide"><Fa icon={faDownload} class="mr-1" /> Install</a>

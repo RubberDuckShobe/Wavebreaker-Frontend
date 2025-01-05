@@ -22,17 +22,17 @@ export async function load({ locals, cookies }) {
 			const recentScores = fetcher<ExtendedScoreInfo[]>('/api/scores/getRecentActivity');
 
 			return {
-				radioSongs: Promise.resolve(radioSongs),
-				rivalScores: Promise.resolve(rivalScores),
-				recentScores: Promise.resolve(recentScores),
-				serverStats: Promise.resolve(serverStats)
+				radioSongs: await Promise.resolve(radioSongs),
+				rivalScores: await Promise.resolve(rivalScores),
+				recentScores: await Promise.resolve(recentScores),
+				serverStats: await Promise.resolve(serverStats)
 			};
 		}
 		return {
 			radioSongs: undefined,
 			rivalScores: undefined,
 			recentScores: undefined,
-			serverStats: Promise.resolve(serverStats)
+			serverStats: await Promise.resolve(serverStats)
 		};
 	} catch (e) {
 		if (isAxiosError(e) && e.response)

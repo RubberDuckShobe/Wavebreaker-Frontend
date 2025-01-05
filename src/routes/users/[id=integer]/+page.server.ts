@@ -42,10 +42,10 @@ export async function load({ params, cookies, locals }) {
 
 	return {
 		userResult,
-		latestScoresResult: Promise.resolve(latestScoresPromise),
-		bestScoresResult: Promise.resolve(bestScoresPromise),
-		rivalsAndChallengers: Promise.resolve(rivalsAndChallengersPromise),
-		isRivalResponse: Promise.resolve(isRivalPromise)
+		latestScoresResult: await Promise.resolve(latestScoresPromise),
+		bestScoresResult: await Promise.resolve(bestScoresPromise),
+		rivalsAndChallengers: await Promise.resolve(rivalsAndChallengersPromise),
+		isRivalResponse: await Promise.resolve(isRivalPromise)
 	};
 }
 

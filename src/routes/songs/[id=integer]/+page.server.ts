@@ -12,7 +12,7 @@ export async function load({ params }) {
 	if (!songResult) throw error(404, { message: 'Song not found' });
 
 	return {
-		songResult
+		songResult: await songResult
 	};
 }
 

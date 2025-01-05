@@ -157,7 +157,7 @@
 			</div>
 		</div>
 	</div>
-	{#if $page.data.user}
+	{#if page.user}
 		<div class="rounded-xl bg-neutral shadow p-4">
 			<button class="btn btn-error" on:click={() => (metadataReportModalOpen = true)}
 				><Fa icon={faTriangleExclamation} />Report incorrect metadata</button

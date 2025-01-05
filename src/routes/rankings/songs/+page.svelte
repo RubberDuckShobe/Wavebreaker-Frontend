@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ClassicPagination from '$lib/components/common/pagination/classic-pagination.svelte';
 	import RankingsLayout from '../rankingsLayout.svelte';
-	import type { PageData } from '../$types';
+	import type { PageData } from './$types';
 	import { pageQueryStore } from '$lib/stores/query-store';
 	import { useAccio } from '$lib/utils/accio';
 	import queryString from 'query-string';

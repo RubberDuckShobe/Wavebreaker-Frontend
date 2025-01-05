@@ -9,47 +9,317 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"test:ts": "tsc --noEmit"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.1.0",
-		"@sveltejs/adapter-node": "^1.3.1",
-		"@sveltejs/kit": "^1.24.1",
-		"@tailwindcss/typography": "^0.5.10",
-		"@types/luxon": "^3.3.2",
-		"@typescript-eslint/eslint-plugin": "^6.6.0",
-		"@typescript-eslint/parser": "^6.6.0",
-		"autoprefixer": "^10.4.15",
-		"daisyui": "^3.7.3",
-		"eslint": "^8.49.0",
-		"eslint-config-prettier": "^9.0.0",
-		"eslint-plugin-svelte": "^2.33.1",
-		"luxon": "^3.4.3",
-		"postcss": "^8.4.29",
-		"postcss-load-config": "^4.0.1",
-		"prettier": "^3.0.3",
-		"prettier-plugin-svelte": "^3.0.3",
-		"svelte": "^4.2.0",
-		"svelte-check": "^3.5.1",
-		"svelte-fa": "^3.0.4",
-		"svelte-preprocess": "^5.0.4",
-		"tailwindcss": "^3.3.3",
-		"tslib": "^2.6.2",
-		"typescript": "^5.2.2",
-		"vite": "^4.4.9"
+		"@sveltejs/adapter-auto": "^3.3.1",
+		"@sveltejs/adapter-node": "^5.2.11",
+		"@sveltejs/kit": "^2.15.1",
+		"@tailwindcss/typography": "^0.5.15",
+		"@types/luxon": "^3.4.2",
+		"@typescript-eslint/eslint-plugin": "^8.19.0",
+		"@typescript-eslint/parser": "^8.19.0",
+		"autoprefixer": "^10.4.20",
+		"daisyui": "^4.12.23",
+		"eslint": "^9.17.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-svelte": "^2.46.1",
+		"luxon": "^3.5.0",
+		"openapi-typescript": "^7.5.1",
+		"postcss": "^8.4.49",
+		"postcss-load-config": "^6.0.1",
+		"prettier": "^3.4.2",
+		"prettier-plugin-svelte": "^3.3.2",
+		"svelte": "^5.16.1",
+		"svelte-check": "^4.1.1",
+		"svelte-fa": "^4.0.3",
+		"svelte-preprocess": "^6.0.3",
+		"tailwindcss": "^3.4.17",
+		"tslib": "^2.8.1",
+		"typescript": "^5.7.2",
+		"vite": "^6.0.7"
 	},
 	"type": "module",
 	"dependencies": {
-		"@fortawesome/free-brands-svg-icons": "^6.4.2",
-		"@fortawesome/free-solid-svg-icons": "^6.4.2",
-		"axios": "^1.5.0",
-		"chart.js": "^4.4.0",
-		"query-string": "^8.1.0",
-		"svelte-chartjs": "^3.1.2"
+		"@fortawesome/free-brands-svg-icons": "^6.7.2",
+		"@fortawesome/free-solid-svg-icons": "^6.7.2",
+		"@sveltejs/vite-plugin-svelte": "^5.0.3",
+		"axios": "^1.7.9",
+		"chart.js": "^4.4.7",
+		"openapi-fetch": "^0.13.4",
+		"query-string": "^9.1.1",
+		"svelte-chartjs": "^3.1.5"
 	},
-	"overrides": {
-		"svelte-chartjs": {
-			"svelte": ">=4.x"
+	"exports": {
+		"./package.json": "./package.json",
+		"./api/wavebreaker.json": "./package/api/wavebreaker.json",
+		"./assets/wavebreaker_icon.svg": "./package/assets/wavebreaker_icon.svg",
+		"./assets/wavebreaker_icon_white.svg": "./package/assets/wavebreaker_icon_white.svg",
+		"./components/common/BottomNav.svelte": {
+			"types": "./package/components/common/BottomNav.svelte.d.ts",
+			"svelte": "./package/components/common/BottomNav.svelte",
+			"default": "./package/components/common/BottomNav.svelte"
+		},
+		"./components/common/Footer.svelte": {
+			"types": "./package/components/common/Footer.svelte.d.ts",
+			"svelte": "./package/components/common/Footer.svelte",
+			"default": "./package/components/common/Footer.svelte"
+		},
+		"./components/common/Modal.svelte": {
+			"types": "./package/components/common/Modal.svelte.d.ts",
+			"svelte": "./package/components/common/Modal.svelte",
+			"default": "./package/components/common/Modal.svelte"
+		},
+		"./components/common/Navbar.svelte": {
+			"types": "./package/components/common/Navbar.svelte.d.ts",
+			"svelte": "./package/components/common/Navbar.svelte",
+			"default": "./package/components/common/Navbar.svelte"
+		},
+		"./components/common/pagination/arrow-button.svelte": {
+			"types": "./package/components/common/pagination/arrow-button.svelte.d.ts",
+			"svelte": "./package/components/common/pagination/arrow-button.svelte",
+			"default": "./package/components/common/pagination/arrow-button.svelte"
+		},
+		"./components/common/pagination/arrow-pagination.svelte": {
+			"types": "./package/components/common/pagination/arrow-pagination.svelte.d.ts",
+			"svelte": "./package/components/common/pagination/arrow-pagination.svelte",
+			"default": "./package/components/common/pagination/arrow-pagination.svelte"
+		},
+		"./components/common/pagination/classic-pagination.svelte": {
+			"types": "./package/components/common/pagination/classic-pagination.svelte.d.ts",
+			"svelte": "./package/components/common/pagination/classic-pagination.svelte",
+			"default": "./package/components/common/pagination/classic-pagination.svelte"
+		},
+		"./components/common/pagination/generateNavigationOptions": {
+			"types": "./package/components/common/pagination/generateNavigationOptions.d.ts",
+			"default": "./package/components/common/pagination/generateNavigationOptions.js"
+		},
+		"./components/common/pagination/pagination-nav.svelte": {
+			"types": "./package/components/common/pagination/pagination-nav.svelte.d.ts",
+			"svelte": "./package/components/common/pagination/pagination-nav.svelte",
+			"default": "./package/components/common/pagination/pagination-nav.svelte"
+		},
+		"./components/home/ServerStats.svelte": {
+			"types": "./package/components/home/ServerStats.svelte.d.ts",
+			"svelte": "./package/components/home/ServerStats.svelte",
+			"default": "./package/components/home/ServerStats.svelte"
+		},
+		"./components/scores/ActivityEntry.svelte": {
+			"types": "./package/components/scores/ActivityEntry.svelte.d.ts",
+			"svelte": "./package/components/scores/ActivityEntry.svelte",
+			"default": "./package/components/scores/ActivityEntry.svelte"
+		},
+		"./components/scores/ScoreBox.svelte": {
+			"types": "./package/components/scores/ScoreBox.svelte.d.ts",
+			"svelte": "./package/components/scores/ScoreBox.svelte",
+			"default": "./package/components/scores/ScoreBox.svelte"
+		},
+		"./components/scores/ScoreDetailModal.svelte": {
+			"types": "./package/components/scores/ScoreDetailModal.svelte.d.ts",
+			"svelte": "./package/components/scores/ScoreDetailModal.svelte",
+			"default": "./package/components/scores/ScoreDetailModal.svelte"
+		},
+		"./components/shouts/Shout.svelte": {
+			"types": "./package/components/shouts/Shout.svelte.d.ts",
+			"svelte": "./package/components/shouts/Shout.svelte",
+			"default": "./package/components/shouts/Shout.svelte"
+		},
+		"./components/shouts/ShoutsSection.svelte": {
+			"types": "./package/components/shouts/ShoutsSection.svelte.d.ts",
+			"svelte": "./package/components/shouts/ShoutsSection.svelte",
+			"default": "./package/components/shouts/ShoutsSection.svelte"
+		},
+		"./components/songs/SongDisplaySmall.svelte": {
+			"types": "./package/components/songs/SongDisplaySmall.svelte.d.ts",
+			"svelte": "./package/components/songs/SongDisplaySmall.svelte",
+			"default": "./package/components/songs/SongDisplaySmall.svelte"
+		},
+		"./components/users/UserBadge.svelte": {
+			"types": "./package/components/users/UserBadge.svelte.d.ts",
+			"svelte": "./package/components/users/UserBadge.svelte",
+			"default": "./package/components/users/UserBadge.svelte"
+		},
+		"./components/users/UserDisplay.svelte": {
+			"types": "./package/components/users/UserDisplay.svelte.d.ts",
+			"svelte": "./package/components/users/UserDisplay.svelte",
+			"default": "./package/components/users/UserDisplay.svelte"
+		},
+		"./components/users/UserDisplaySmall.svelte": {
+			"types": "./package/components/users/UserDisplaySmall.svelte.d.ts",
+			"svelte": "./package/components/users/UserDisplaySmall.svelte",
+			"default": "./package/components/users/UserDisplaySmall.svelte"
+		},
+		"./components/users/UserRoleBadge.svelte": {
+			"types": "./package/components/users/UserRoleBadge.svelte.d.ts",
+			"svelte": "./package/components/users/UserRoleBadge.svelte",
+			"default": "./package/components/users/UserRoleBadge.svelte"
+		},
+		"./models/ScoreData": {
+			"types": "./package/models/ScoreData.d.ts",
+			"default": "./package/models/ScoreData.js"
+		},
+		"./models/ServerStats": {
+			"types": "./package/models/ServerStats.d.ts",
+			"default": "./package/models/ServerStats.js"
+		},
+		"./models/ShoutData": {
+			"types": "./package/models/ShoutData.d.ts",
+			"default": "./package/models/ShoutData.js"
+		},
+		"./models/SongData": {
+			"types": "./package/models/SongData.d.ts",
+			"default": "./package/models/SongData.js"
+		},
+		"./models/UserData": {
+			"types": "./package/models/UserData.d.ts",
+			"default": "./package/models/UserData.js"
+		},
+		"./stores/metadata-store": {
+			"types": "./package/stores/metadata-store.d.ts",
+			"default": "./package/stores/metadata-store.js"
+		},
+		"./stores/query-store": {
+			"types": "./package/stores/query-store.d.ts",
+			"default": "./package/stores/query-store.js"
+		},
+		"./utils/accio/cache": {
+			"types": "./package/utils/accio/cache.d.ts",
+			"default": "./package/utils/accio/cache.js"
+		},
+		"./utils/accio/canceler": {
+			"types": "./package/utils/accio/canceler.d.ts",
+			"default": "./package/utils/accio/canceler.js"
+		},
+		"./utils/accio": {
+			"types": "./package/utils/accio/index.d.ts",
+			"svelte": "./package/utils/accio/index.js",
+			"default": "./package/utils/accio/index.js"
+		},
+		"./utils/api": {
+			"types": "./package/utils/api.d.ts",
+			"default": "./package/utils/api.js"
+		},
+		"./utils/characterUtils": {
+			"types": "./package/utils/characterUtils.d.ts",
+			"default": "./package/utils/characterUtils.js"
+		},
+		"./utils/songQuoteList": {
+			"types": "./package/utils/songQuoteList.d.ts",
+			"default": "./package/utils/songQuoteList.js"
+		},
+		"./utils/xStats": {
+			"types": "./package/utils/xStats.d.ts",
+			"default": "./package/utils/xStats.js"
+		}
+	},
+	"files": [
+		"package"
+	],
+	"typesVersions": {
+		">4.0": {
+			"components/common/BottomNav.svelte": [
+				"./package/components/common/BottomNav.svelte.d.ts"
+			],
+			"components/common/Footer.svelte": [
+				"./package/components/common/Footer.svelte.d.ts"
+			],
+			"components/common/Modal.svelte": [
+				"./package/components/common/Modal.svelte.d.ts"
+			],
+			"components/common/Navbar.svelte": [
+				"./package/components/common/Navbar.svelte.d.ts"
+			],
+			"components/common/pagination/arrow-button.svelte": [
+				"./package/components/common/pagination/arrow-button.svelte.d.ts"
+			],
+			"components/common/pagination/arrow-pagination.svelte": [
+				"./package/components/common/pagination/arrow-pagination.svelte.d.ts"
+			],
+			"components/common/pagination/classic-pagination.svelte": [
+				"./package/components/common/pagination/classic-pagination.svelte.d.ts"
+			],
+			"components/common/pagination/generateNavigationOptions": [
+				"./package/components/common/pagination/generateNavigationOptions.d.ts"
+			],
+			"components/common/pagination/pagination-nav.svelte": [
+				"./package/components/common/pagination/pagination-nav.svelte.d.ts"
+			],
+			"components/home/ServerStats.svelte": [
+				"./package/components/home/ServerStats.svelte.d.ts"
+			],
+			"components/scores/ActivityEntry.svelte": [
+				"./package/components/scores/ActivityEntry.svelte.d.ts"
+			],
+			"components/scores/ScoreBox.svelte": [
+				"./package/components/scores/ScoreBox.svelte.d.ts"
+			],
+			"components/scores/ScoreDetailModal.svelte": [
+				"./package/components/scores/ScoreDetailModal.svelte.d.ts"
+			],
+			"components/shouts/Shout.svelte": [
+				"./package/components/shouts/Shout.svelte.d.ts"
+			],
+			"components/shouts/ShoutsSection.svelte": [
+				"./package/components/shouts/ShoutsSection.svelte.d.ts"
+			],
+			"components/songs/SongDisplaySmall.svelte": [
+				"./package/components/songs/SongDisplaySmall.svelte.d.ts"
+			],
+			"components/users/UserBadge.svelte": [
+				"./package/components/users/UserBadge.svelte.d.ts"
+			],
+			"components/users/UserDisplay.svelte": [
+				"./package/components/users/UserDisplay.svelte.d.ts"
+			],
+			"components/users/UserDisplaySmall.svelte": [
+				"./package/components/users/UserDisplaySmall.svelte.d.ts"
+			],
+			"components/users/UserRoleBadge.svelte": [
+				"./package/components/users/UserRoleBadge.svelte.d.ts"
+			],
+			"models/ScoreData": [
+				"./package/models/ScoreData.d.ts"
+			],
+			"models/ServerStats": [
+				"./package/models/ServerStats.d.ts"
+			],
+			"models/ShoutData": [
+				"./package/models/ShoutData.d.ts"
+			],
+			"models/SongData": [
+				"./package/models/SongData.d.ts"
+			],
+			"models/UserData": [
+				"./package/models/UserData.d.ts"
+			],
+			"stores/metadata-store": [
+				"./package/stores/metadata-store.d.ts"
+			],
+			"stores/query-store": [
+				"./package/stores/query-store.d.ts"
+			],
+			"utils/accio/cache": [
+				"./package/utils/accio/cache.d.ts"
+			],
+			"utils/accio/canceler": [
+				"./package/utils/accio/canceler.d.ts"
+			],
+			"utils/accio": [
+				"./package/utils/accio/index.d.ts"
+			],
+			"utils/api": [
+				"./package/utils/api.d.ts"
+			],
+			"utils/characterUtils": [
+				"./package/utils/characterUtils.d.ts"
+			],
+			"utils/songQuoteList": [
+				"./package/utils/songQuoteList.d.ts"
+			],
+			"utils/xStats": [
+				"./package/utils/xStats.d.ts"
+			]
 		}
 	}
 }
