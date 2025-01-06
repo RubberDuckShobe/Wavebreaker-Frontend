@@ -1,8 +1,11 @@
+<!--https://github.com/SauravKanchan/svelte-chartjs/issues/158#issuecomment-2456212827
+	Thank you!
+-->
 <script lang="ts">
 	import { CharacterClass, characterList, getCharacterClass } from '$lib/utils/characterUtils';
 	import type { Score } from '$lib/models/ScoreData';
 	import Modal from '../common/Modal.svelte';
-	import { Line } from 'svelte-chartjs';
+	import Line from '$lib/components/LineFix.svelte';
 	import {
 		Chart as ChartJS,
 		Title,

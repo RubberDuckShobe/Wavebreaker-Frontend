@@ -5,9 +5,14 @@ import { fetcher } from '$lib/utils/api.js';
 import { loadMetadata } from '$lib/stores/metadata-store.js';
 import type { ServerStats } from '$lib/models/ServerStats.js';
 import type { ExtendedScoreInfo } from '$lib/models/ScoreData.js';
+import { client } from '$lib/api';
 
 export async function load({ locals, cookies }) {
 	try {
+		const {
+			data,
+			error,
+		  } = await client.GET("/stats");
 		const serverStats: Promise<ServerStats> = loadMetadata(fetch, '/api/server/getStats');
 		if (locals.user) {
 			const authToken = cookies.get('Authorization');
@@ -25,14 +30,14 @@ export async function load({ locals, cookies }) {
 				radioSongs: await Promise.resolve(radioSongs),
 				rivalScores: await Promise.resolve(rivalScores),
 				recentScores: await Promise.resolve(recentScores),
-				serverStats: await Promise.resolve(serverStats)
+				serverStats: data,
 			};
 		}
 		return {
 			radioSongs: undefined,
 			rivalScores: undefined,
 			recentScores: undefined,
-			serverStats: await Promise.resolve(serverStats)
+			serverStats: data,
 		};
 	} catch (e) {
 		if (isAxiosError(e) && e.response)
