@@ -20,6 +20,7 @@ const config = {
         //Based on the VSCode Moonlight II theme.
         ...require("daisyui/src/theming/themes")["[data-theme=dark]"],
         primary: wavebreakerBrandColor,
+        "primary-content": "#FFFFFF",
         neutral: "#212337",
         "base-100": "#1E2030",
         "base-200": "#191A2A",

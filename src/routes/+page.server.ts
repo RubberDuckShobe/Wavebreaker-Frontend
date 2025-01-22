@@ -5,14 +5,14 @@ import { fetcher } from '$lib/utils/api.js';
 import { loadMetadata } from '$lib/stores/metadata-store.js';
 import type { ServerStats } from '$lib/models/ServerStats.js';
 import type { ExtendedScoreInfo } from '$lib/models/ScoreData.js';
-import { client } from '$lib/api';
+import client from '$lib/api';
 
-export async function load({ locals, cookies }) {
+export async function load({ locals, cookies, fetch }) {
 	try {
 		const {
 			data,
 			error,
-		  } = await client.GET("/stats");
+		} = await client.GET("/stats", { fetch });
 		const serverStats: Promise<ServerStats> = loadMetadata(fetch, '/api/server/getStats');
 		if (locals.user) {
 			const authToken = cookies.get('Authorization');
