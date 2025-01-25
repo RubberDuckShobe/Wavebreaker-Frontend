@@ -157,6 +157,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/scores/rivals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get rivals' scores */
+        get: operations["get_rival_scores"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/scores/{id}": {
         parameters: {
             query?: never;
@@ -485,6 +502,7 @@ export interface components {
             total: number;
         };
         ScoreSearchResult: components["schemas"]["Score"] & {
+            extra_info?: null | components["schemas"]["ExtraSongInfo"];
             player?: null | components["schemas"]["PlayerPublic"];
             song?: null | components["schemas"]["Song"];
         };
@@ -587,6 +605,15 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     get_player_rankings: {
@@ -610,6 +637,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PlayerRankingResponse"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
         };
@@ -637,6 +673,15 @@ export interface operations {
             };
             /** @description Not logged in or invalid token */
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -672,6 +717,15 @@ export interface operations {
             };
             /** @description Player not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -739,6 +793,15 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     remove_rival: {
@@ -791,6 +854,15 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     get_own_rivals: {
@@ -809,6 +881,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RivalryResponse"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
         };
@@ -859,6 +940,79 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
+        };
+    };
+    get_rival_scores: {
+        parameters: {
+            query?: {
+                /** @description Include player info */
+                withPlayer?: boolean;
+                /** @description Include song info */
+                withSong?: boolean;
+                /** @description Page number */
+                page?: number;
+                /** @description Page size */
+                pageSize?: number;
+                /** @description Sort by submission time */
+                timeSort?: components["schemas"]["SortType"];
+                /** @description Sort by score */
+                scoreSort?: components["schemas"]["SortType"];
+                /** @description League to filter by */
+                league?: components["schemas"]["League"];
+                /** @description Character to filter by */
+                character?: components["schemas"]["Character"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScoreSearchResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
+            /** @description Song not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     get_score: {
@@ -889,6 +1043,15 @@ export interface operations {
             };
             /** @description Score not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -937,6 +1100,15 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     delete_shout: {
@@ -978,6 +1150,15 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     get_radio_songs: {
@@ -998,7 +1179,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RadioSongResponse"];
+                    "application/json": components["schemas"]["RadioSongResponse"][];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
         };
@@ -1030,6 +1220,15 @@ export interface operations {
             };
             /** @description Invalid query parameters */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1072,6 +1271,15 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     delete_song: {
@@ -1104,6 +1312,15 @@ export interface operations {
             };
             /** @description Song not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1154,6 +1371,15 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     update_song_extra_info_mbid: {
@@ -1190,6 +1416,15 @@ export interface operations {
             };
             /** @description Song not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1242,6 +1477,15 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     get_song_shouts: {
@@ -1279,6 +1523,15 @@ export interface operations {
                     "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
+                };
+            };
         };
     };
     stats: {
@@ -1297,6 +1550,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ServerStats"];
+                };
+            };
+            /** @description Miscellaneous error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimpleRouteErrorOutput"];
                 };
             };
         };

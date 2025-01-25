@@ -1,43 +1,33 @@
 import { error } from '@sveltejs/kit';
 import { isAxiosError } from 'axios';
-import type { GetRadioSongsResponse } from '$lib/models/SongData.js';
-import { fetcher } from '$lib/utils/api.js';
-import { loadMetadata } from '$lib/stores/metadata-store.js';
-import type { ServerStats } from '$lib/models/ServerStats.js';
-import type { ExtendedScoreInfo } from '$lib/models/ScoreData.js';
 import client from '$lib/api';
 
 export async function load({ locals, cookies, fetch }) {
 	try {
-		const {
-			data,
-			error,
-		} = await client.GET("/stats", { fetch });
-		const serverStats: Promise<ServerStats> = loadMetadata(fetch, '/api/server/getStats');
+		const serverStats = await client.GET("/stats", { fetch });
+
 		if (locals.user) {
-			const authToken = cookies.get('Authorization');
-			const radioSongs: Promise<GetRadioSongsResponse> = fetcher(
-				'/api/server/getRadioSongs',
-				authToken
-			);
-			const rivalScores: Promise<ExtendedScoreInfo[]> = fetcher(
-				'/api/scores/getRivalActivity',
-				authToken
-			);
-			const recentScores = fetcher<ExtendedScoreInfo[]>('/api/scores/getRecentActivity');
+			const radioSongs = await client.GET("/songs/radio", { fetch });
+			const rivalScores = await client.GET("/scores/rivals", { fetch });
+			const recentScores = await client.GET("/scores", {
+				fetch, params: {
+					query:
+						{ withPlayer: true, withSong: true, pageSize: 10, timeSort: "desc" }
+				}
+			});
 
 			return {
-				radioSongs: await Promise.resolve(radioSongs),
-				rivalScores: await Promise.resolve(rivalScores),
-				recentScores: await Promise.resolve(recentScores),
-				serverStats: data,
+				radioSongs,
+				rivalScores,
+				recentScores,
+				serverStats,
 			};
 		}
 		return {
 			radioSongs: undefined,
 			rivalScores: undefined,
 			recentScores: undefined,
-			serverStats: data,
+			serverStats,
 		};
 	} catch (e) {
 		if (isAxiosError(e) && e.response)

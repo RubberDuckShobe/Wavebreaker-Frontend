@@ -1,30 +1,32 @@
 <script lang="ts">
+	import type { components } from '$lib/api/wavebreaker';
 	import type { Song } from '$lib/models/SongData';
 
-	export let targetSong: Song;
+	export let targetSong: components["schemas"]["Song"];
+	export let extraInfo: null | components["schemas"]["ExtraSongInfo"];
 </script>
 
 <a
 	href="/songs/{targetSong.id}"
 	class="flex gap-y-2 gap-x-2 items-center flex-row hover:underline"
 >
-	{#if targetSong.smallCoverUrl}
+	{#if extraInfo.coverUrlSmall}
 		<img
 			loading="lazy"
-			src={targetSong.smallCoverUrl}
-			alt="Cover of {targetSong.musicbrainzArtist ??
-				targetSong.artist} - {targetSong.musicbrainzTitle ?? targetSong.title}"
+			src={extraInfo.coverUrlSmall}
+			alt="Cover of {extraInfo.musicbrainzArtist ??
+				targetSong.artist} - {extraInfo.musicbrainzTitle ?? targetSong.title}"
 			class="w-12 h-12 rounded-xl"
 		/>
 	{/if}
 	<div class="flex flex-row items-center gap-x-2">
 		<div>
-			<p class="font-semibold">{targetSong.musicbrainzTitle ?? targetSong.title}</p>
-			<p class="text-sm">{targetSong.musicbrainzArtist ?? targetSong.artist}</p>
+			<p class="font-semibold">{extraInfo.musicbrainzTitle ?? targetSong.title}</p>
+			<p class="text-sm">{extraInfo.musicbrainzArtist ?? targetSong.artist}</p>
 		</div>
-		{#if targetSong.tags}
+		{#if targetSong.modifiers}
 			<div class="flex flex-row flex-wrap gap-1">
-				{#each targetSong.tags as tag}
+				{#each targetSong.modifiers as tag}
 					<div class="badge badge-ghost">{tag}</div>
 				{/each}
 			</div>

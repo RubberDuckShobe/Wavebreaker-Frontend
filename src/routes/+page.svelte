@@ -46,13 +46,13 @@
 				</div>
 			</div>
 			{#if data.radioSongs}
-				{#each data.radioSongs.songs as song}
+				{#each data.radioSongs.data as radioSong}
 					<div class="flex flex-row items-center self-center p-2">
-						<SongDisplaySmall targetSong={song} />
+						<SongDisplaySmall targetSong={radioSong.song} extraInfo={radioSong.extra_info} />
 						<a
 							aria-label="Purchase song"
 							class="btn btn-ghost btn-sm btn-square ml-auto"
-							href={song.externalUrl}
+							href={radioSong.external_url}
 							><Fa icon={faExternalLink} />
 						</a>
 					</div>
@@ -65,9 +65,13 @@
 			<div class="bg-neutral rounded-xl p-4 shadow grow max-w-[36rem]">
 				<h2 class="text-xl font-bold">Recent activity</h2>
 				<div class="flex flex-col p-2 gap-y-3">
-					{#each data.recentScores as score}
-						<ActivityEntry {score} />
-					{/each}
+					{#if data.recentScores.error}
+						<p class="text-error"><i>Error: {data.recentScores.error}</i></p>
+					{:else if data.recentScores.data}
+						{#each data.recentScores.data.results as score}
+							<ActivityEntry {score} />
+						{/each}
+					{/if}
 				</div>
 			</div>
 		{/if}
@@ -75,16 +79,20 @@
 			<div class="bg-neutral rounded-xl p-4 shadow grow">
 				<h2 class="text-xl font-bold">Rivals' activity</h2>
 				<div class="flex flex-col p-2 gap-y-3">
-					{#each data.rivalScores as score}
-						<ActivityEntry {score} />
-					{/each}
+					{#if data.rivalScores.error}
+						<p class="text-error"><i>Error: {data.rivalScores.error}</i></p>
+					{:else if data.rivalScores.data}
+						{#each data.rivalScores.data.results as score}
+							<ActivityEntry {score} />
+						{/each}
+					{/if}
 				</div>
 			</div>
 		{/if}
 		<ServerStats
-			userCount={data.serverStats.userCount}
-			songCount={data.serverStats.songCount}
-			scoreCount={data.serverStats.scoreCount}
+			userCount={data.serverStats.data.userCount}
+			songCount={data.serverStats.data.songCount}
+			scoreCount={data.serverStats.data.scoreCount}
 		/>
 	</div>
 {:else}
@@ -105,15 +113,14 @@
 			</li>
 		</ul>
 		<p>Sound good?</p>
-		<a
-			href="/installguide"
-			class="btn btn-primary btn-sm normal-case"><Fa icon={faDownload} />Jump in!</a
+		<a href="/installguide" class="btn btn-primary btn-sm normal-case"
+			><Fa icon={faDownload} />Jump in!</a
 		>
 	</div>
 
 	<ServerStats
-		userCount={data.serverStats.userCount}
-		songCount={data.serverStats.songCount}
-		scoreCount={data.serverStats.scoreCount}
+		userCount={data.serverStats.data.userCount}
+		songCount={data.serverStats.data.songCount}
+		scoreCount={data.serverStats.data.scoreCount}
 	/>
 {/if}
