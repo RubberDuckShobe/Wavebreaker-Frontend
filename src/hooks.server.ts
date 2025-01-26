@@ -22,11 +22,3 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event);
 	return response;
 };
-
-export const handleFetch: HandleFetch = async ({ event, request, fetch }) => {
-	if (request.url.startsWith(env.PUBLIC_API_URL)) {
-		request.headers.set('Cookie', event.request.headers.get('Cookie'));
-	}
-
-	return fetch(request);
-};
