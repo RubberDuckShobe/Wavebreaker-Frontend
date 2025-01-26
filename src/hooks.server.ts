@@ -7,7 +7,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (jwt) {
 		try {
-			const user = await client.GET("/players/self", { fetch: event.fetch, headers: { "authorization": jwt } });
+			const user = await client.GET("/players/self", { fetch: event.fetch });
 			if (user.error) {
 				console.error(user.error.error);
 			}
@@ -21,4 +21,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	const response = await resolve(event);
 	return response;
+};
+
+export const handleFetch: HandleFetch = async ({ event, request, fetch }) => {
+	if (request.url.startsWith(env.PUBLIC_API_URL)) {
+		request.headers.set('authorization', event.cookies.get("authorization"));
+	}
+
+	return fetch(request);
 };
