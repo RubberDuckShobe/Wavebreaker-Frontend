@@ -453,8 +453,8 @@ export interface components {
             skillPoints: number;
         };
         RadioSongResponse: {
-            external_url: string;
-            extra_info?: null | components["schemas"]["ExtraSongInfo"];
+            externalUrl: string;
+            extraInfo?: null | components["schemas"]["ExtraSongInfo"];
             song: components["schemas"]["Song"];
         };
         RivalryResponse: {
@@ -471,7 +471,7 @@ export interface components {
             /** @description Bonuses like Clean Finish, Seeing Red, etc. */
             feats: (string | null)[];
             /** Format: int32 */
-            gold_threshold: number;
+            goldThreshold: number;
             /** Format: int32 */
             id: number;
             /** Format: int32 */
@@ -480,21 +480,24 @@ export interface components {
             iss: number;
             league: components["schemas"]["League"];
             /** Format: int32 */
-            play_count: number;
+            playCount: number;
             /** Format: int32 */
-            player_id: number;
+            playerId: number;
             /** Format: int32 */
             score: number;
             /** Format: int32 */
-            song_id: number;
+            songId: number;
             /** Format: int32 */
-            song_length: number;
+            songLength: number;
             /** Format: date-time */
-            submitted_at: string;
-            track_shape: (number | null)[];
+            submittedAt: string;
+            trackShape: (number | null)[];
             vehicle: components["schemas"]["Character"];
             /** @description Extra data about the play with meaning depending on the character used, sent by the game as a string of x-seperated numbers */
             xstats: (number | null)[];
+        };
+        ScoreResponse: components["schemas"]["Score"] & {
+            player?: null | components["schemas"]["PlayerPublic"];
         };
         ScoreSearchResponse: {
             results: components["schemas"]["ScoreSearchResult"][];
@@ -502,7 +505,7 @@ export interface components {
             total: number;
         };
         ScoreSearchResult: components["schemas"]["Score"] & {
-            extra_info?: null | components["schemas"]["ExtraSongInfo"];
+            extraInfo?: null | components["schemas"]["ExtraSongInfo"];
             player?: null | components["schemas"]["PlayerPublic"];
             song?: null | components["schemas"]["Song"];
         };
@@ -536,9 +539,9 @@ export interface components {
          */
         SortType: "asc" | "desc";
         TopSongResponse: {
-            song_data: components["schemas"]["SongResponse"];
+            songData: components["schemas"]["SongResponse"];
             /** Format: int64 */
-            times_played: number;
+            timesPlayed: number;
         };
     };
     responses: never;
@@ -571,7 +574,7 @@ export interface operations {
     };
     auth_return: {
         parameters: {
-            query?: never;
+            query?: string;
             header?: never;
             path?: never;
             cookie?: never;
@@ -1465,7 +1468,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SongResponse"];
+                    "application/json": components["schemas"]["ScoreResponse"][];
                 };
             };
             /** @description Song not found */

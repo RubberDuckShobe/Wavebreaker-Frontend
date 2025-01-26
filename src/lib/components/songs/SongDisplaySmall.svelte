@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { components } from '$lib/api/wavebreaker';
-	import type { Song } from '$lib/models/SongData';
 
 	export let targetSong: components["schemas"]["Song"];
 	export let extraInfo: null | components["schemas"]["ExtraSongInfo"];
@@ -10,7 +9,7 @@
 	href="/songs/{targetSong.id}"
 	class="flex gap-y-2 gap-x-2 items-center flex-row hover:underline"
 >
-	{#if extraInfo.coverUrlSmall}
+	{#if extraInfo?.coverUrlSmall}
 		<img
 			loading="lazy"
 			src={extraInfo.coverUrlSmall}
@@ -21,8 +20,8 @@
 	{/if}
 	<div class="flex flex-row items-center gap-x-2">
 		<div>
-			<p class="font-semibold">{extraInfo.musicbrainzTitle ?? targetSong.title}</p>
-			<p class="text-sm">{extraInfo.musicbrainzArtist ?? targetSong.artist}</p>
+			<p class="font-semibold">{extraInfo?.musicbrainzTitle ?? targetSong.title}</p>
+			<p class="text-sm">{extraInfo?.musicbrainzArtist ?? targetSong.artist}</p>
 		</div>
 		{#if targetSong.modifiers}
 			<div class="flex flex-row flex-wrap gap-1">

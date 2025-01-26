@@ -48,11 +48,11 @@
 			{#if data.radioSongs}
 				{#each data.radioSongs.data as radioSong}
 					<div class="flex flex-row items-center self-center p-2">
-						<SongDisplaySmall targetSong={radioSong.song} extraInfo={radioSong.extra_info} />
+						<SongDisplaySmall targetSong={radioSong.song} extraInfo={radioSong.extraInfo} />
 						<a
 							aria-label="Purchase song"
 							class="btn btn-ghost btn-sm btn-square ml-auto"
-							href={radioSong.external_url}
+							href={radioSong.externalUrl}
 							><Fa icon={faExternalLink} />
 						</a>
 					</div>
@@ -66,10 +66,10 @@
 				<h2 class="text-xl font-bold">Recent activity</h2>
 				<div class="flex flex-col p-2 gap-y-3">
 					{#if data.recentScores.error}
-						<p class="text-error"><i>Error: {data.recentScores.error}</i></p>
+						<p class="text-error"><i>Error: {data.recentScores.error.error}</i></p>
 					{:else if data.recentScores.data}
 						{#each data.recentScores.data.results as score}
-							<ActivityEntry {score} />
+							<ActivityEntry {score} player={score.player} song={score.song} extraSongInfo={score.extraInfo} />
 						{/each}
 					{/if}
 				</div>
@@ -80,10 +80,10 @@
 				<h2 class="text-xl font-bold">Rivals' activity</h2>
 				<div class="flex flex-col p-2 gap-y-3">
 					{#if data.rivalScores.error}
-						<p class="text-error"><i>Error: {data.rivalScores.error}</i></p>
+						<p class="text-error"><i>Error: {data.rivalScores.error.error}</i></p>
 					{:else if data.rivalScores.data}
 						{#each data.rivalScores.data.results as score}
-							<ActivityEntry {score} />
+						<ActivityEntry {score} player={score.player} song={score.song} extraSongInfo={score.extraInfo} />
 						{/each}
 					{/if}
 				</div>

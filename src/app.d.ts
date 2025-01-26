@@ -1,15 +1,16 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 import type { UserInfo } from '$lib/models/UserData.ts';
+import { components } from '$lib/api/wavebreaker';
 
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: UserInfo | null; // Your type here
+			user: components["schemas"]["PlayerPublic"] | null; // Your type here
 		}
 		interface PageData {
-			user: UserInfo | null;
+			user: components["schemas"]["PlayerPublic"] | null;
 		}
 		// interface Platform {}
 	}

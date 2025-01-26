@@ -1,21 +1,24 @@
 <script lang="ts">
-	import type { ExtendedScoreInfo } from '$lib/models/ScoreData';
 	import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
+	import type { components } from '$lib/api/wavebreaker';
 
-	export let score: ExtendedScoreInfo;
+	export let score: components["schemas"]["Score"];
+	export let player: components["schemas"]["PlayerPublic"];
+	export let song: components["schemas"]["Song"];
+	export let extraSongInfo: null | components["schemas"]["ExtraSongInfo"];
 	let formatter = Intl.NumberFormat();
 </script>
 
 <div class="grid grid-cols-3 items-center">
-	<a href="/users/{score.userId}" class="flex flex-row gap-x-2 hover:underline">
+	<a href="/users/{score.playerId}" class="flex flex-row gap-x-2 hover:underline">
 		<img
 			class="avatar w-12 h-12 rounded-xl"
-			alt="Avatar of {score.player.username}"
-			src={score.player.avatarUrlMedium}
+			alt="Avatar of {player.username}"
+			src={player.avatarUrl}
 		/>
 		<div class="flex flex-col whitespace-nowrap overflow-hidden overflow-ellipsis justify-items-center">
-			<div class="font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis">{score.player.username}</div>
+			<div class="font-semibold whitespace-nowrap overflow-hidden overflow-ellipsis">{player.username}</div>
 			<span class="hidden md:block">{formatter.format(score.score)}</span>
 		</div>
 	</a>
@@ -24,17 +27,17 @@
 		<span class="md:hidden">{formatter.format(score.score)}</span>
 	</div>
 	<a href="/songs/{score.songId}" class="flex flex-row gap-x-2 hover:underline">
-		{#if score.song.smallCoverUrl}
-			<img class="avatar w-12 h-12 rounded-xl" alt="Song cover" src={score.song.smallCoverUrl} />
+		{#if extraSongInfo?.coverUrlSmall}
+			<img class="avatar w-12 h-12 rounded-xl" alt="Song cover" src={extraSongInfo.coverUrlSmall} />
 		{/if}
 		<div
 			class="flex flex-col whitespace-nowrap overflow-hidden overflow-ellipsis"
 		>
 			<span class="font-semibold overflow-hidden overflow-ellipsis">
-				{score.song.musicbrainzTitle ?? score.song.title}
+				{extraSongInfo?.musicbrainzTitle ?? song.title}
 			</span>
 			<span class="overflow-hidden overflow-ellipsis">
-				{score.song.musicbrainzArtist ?? score.song.artist}
+				{extraSongInfo?.musicbrainzArtist ?? song.artist}
 			</span>
 		</div>
 	</a>

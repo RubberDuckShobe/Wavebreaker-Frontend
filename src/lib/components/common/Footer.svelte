@@ -1,5 +1,5 @@
 <div class="w-full py-5">
-	<div class="divider" />
+	<div class="divider"></div>
 	<footer class="footer footer-center bg-base-100 text-base-content">
 		<div class="px-5">
 			<p>
