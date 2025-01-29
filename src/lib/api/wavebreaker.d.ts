@@ -130,7 +130,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get own rivals */
+        /** Get own rivals and challengers */
         get: operations["get_own_rivals"];
         put?: never;
         post?: never;
@@ -458,6 +458,7 @@ export interface components {
             song: components["schemas"]["Song"];
         };
         RivalryResponse: {
+            challengers: components["schemas"]["RivalryView"][];
             rivalries: components["schemas"]["RivalryView"][];
         };
         RivalryView: {
@@ -574,7 +575,7 @@ export interface operations {
     };
     auth_return: {
         parameters: {
-            query?: string;
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
@@ -809,10 +810,7 @@ export interface operations {
     };
     remove_rival: {
         parameters: {
-            query: {
-                /** @description ID of player to un-rival */
-                rivalId: number;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;

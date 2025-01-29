@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { components } from '$lib/api/wavebreaker';
 	import type { Score } from '$lib/models/ScoreData';
 	import type { Song } from '$lib/models/SongData';
 	import type { UserInfo } from '$lib/models/UserData';
@@ -7,32 +8,33 @@
 	import Fa from 'svelte-fa';
 
 	export let placement: number = undefined;
-	export let targetEntity: UserInfo | Song;
-	export let targetScore: Score;
+	export let targetEntity: components['schemas']['PlayerPublic'] | components['schemas']['Song'];
+	export let extraSongInfo: components['schemas']['ExtraSongInfo'] | null = undefined;
+	export let targetScore: components['schemas']['Score'];
 	export let entityImage: string = undefined;
 	export let entityImageSmall: string = undefined;
-	export let modalFunction: (scoreData: Score) => void = undefined;
+	export let modalFunction: (scoreData: components['schemas']['Score']) => void = undefined;
 
 	if (!entityImage) {
 		if ('avatarUrl' in targetEntity) {
 			entityImage = targetEntity.avatarUrl;
-		} else if ('coverUrl' in targetEntity) {
-			entityImage = targetEntity.coverUrl;
+		} else if (extraSongInfo != null && 'coverUrl' in extraSongInfo) {
+			entityImage = extraSongInfo.coverUrl;
 		}
 	}
 
 	if (!entityImageSmall) {
 		if ('avatarUrl' in targetEntity) {
-			entityImageSmall = targetEntity.avatarUrlMedium;
-		} else if ('coverUrl' in targetEntity) {
-			entityImageSmall = targetEntity.smallCoverUrl;
+			entityImageSmall = targetEntity.avatarUrl;
+		} else if (extraSongInfo != null && 'coverUrlSmall' in extraSongInfo) {
+			entityImageSmall = extraSongInfo.coverUrlSmall;
 		}
 	}
 
 	let formatter = Intl.NumberFormat();
-	$: timeSet = DateTime.fromISO(targetScore.rideTime);
-	let trackShapeNumbers = targetScore.trackShape.split('x').map(function (item) {
-		return Math.abs(parseInt(item) - 103);
+	$: timeSet = DateTime.fromISO(targetScore.submittedAt);
+	let trackShapeNumbers = targetScore.trackShape.map(function (item) {
+		return Math.abs(item - 103);
 	});
 	const trackShapeData = {
 		labels: new Array(trackShapeNumbers.length - 1).fill(''),
@@ -78,18 +80,18 @@
 					title="Song title and artist"
 				>
 					<div class="font-semibold">
-						{targetEntity.musicbrainzTitle ?? targetEntity.title}
+						{extraSongInfo?.musicbrainzTitle ?? targetEntity.title}
 					</div>
-					<p class="text-sm">{targetEntity.musicbrainzArtist ?? targetEntity.artist}</p>
+					<p class="text-sm">{extraSongInfo?.musicbrainzArtist ?? targetEntity.artist}</p>
 				</a>
 			{:else}
 				<a href={`/users/${targetEntity.id}`} class="hover:underline overflow-hidden font-semibold">
 					{targetEntity.username}
 				</a>
 			{/if}
-			{#if 'tags' in targetEntity && targetEntity.tags}
+			{#if 'modifiers' in targetEntity && targetEntity}
 				<div class="hidden md:flex flex-row flex-wrap gap-2">
-					{#each targetEntity.tags as tag}
+					{#each targetEntity.modifiers as tag}
 						<div class="badge badge-ghost">{tag}</div>
 					{/each}
 				</div>
@@ -123,9 +125,9 @@
 				</button>
 			{/if}
 		</div>
-		{#if 'tags' in targetEntity && targetEntity.tags}
+		{#if 'modifiers' in targetEntity && targetEntity.modifiers}
 			<div class="md:hidden flex flex-row flex-wrap gap-2 self-start">
-				{#each targetEntity.tags as tag}
+				{#each targetEntity.modifiers as tag}
 					<div class="badge badge-ghost">{tag}</div>
 				{/each}
 			</div>

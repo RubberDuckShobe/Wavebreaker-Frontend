@@ -35,9 +35,7 @@ type XStatsBlocks = {
 
 export type XStats = XStatsGeneral & XStatsBlocks;
 
-export function parseXStats(xStats: string): XStats {
-	const statArray: number[] = xStats.split(',').map(Number);
-
+export function parseXStats(statArray: number[]): XStats {
 	const parsedStats = <XStatsGeneral>{};
 	parsedStats.characterSpecific1 = statArray[0];
 	parsedStats.characterSpecific2 = statArray[1];

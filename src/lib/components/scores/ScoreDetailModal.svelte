@@ -3,7 +3,6 @@
 -->
 <script lang="ts">
 	import { CharacterClass, characterList, getCharacterClass } from '$lib/utils/characterUtils';
-	import type { Score } from '$lib/models/ScoreData';
 	import Modal from '../common/Modal.svelte';
 	import Line from '$lib/components/LineFix.svelte';
 	import {
@@ -18,6 +17,7 @@
 	} from 'chart.js';
 	import { DateTime } from 'luxon';
 	import { parseXStats } from '$lib/utils/xStats';
+	import type { components } from '$lib/api/wavebreaker';
 
 	ChartJS.register(Title, Tooltip, Legend, LineElement, LinearScale, PointElement, CategoryScale);
 	ChartJS.defaults.font.family = 'Inter, sans-serif';
@@ -25,17 +25,17 @@
 	ChartJS.defaults.borderColor = '#2f334d';
 	ChartJS.defaults.backgroundColor = '#009EFF';
 
-	export let targetScore: Score;
+	export let targetScore: components['schemas']['Score'];
 	export let showModal: boolean;
 
 	let formatter = Intl.NumberFormat();
-	let timeSet = DateTime.fromISO(targetScore.rideTime);
+	let timeSet = DateTime.fromISO(targetScore.submittedAt);
 
 	let trackShapeNumbers;
 	let trackShapeData;
 
-	trackShapeNumbers = targetScore.trackShape.split('x').map(function (item) {
-		return Math.abs(parseInt(item) - 103);
+	trackShapeNumbers = targetScore.trackShape.map(function (item) {
+		return Math.abs(item - 103);
 	});
 	trackShapeData = {
 		labels: new Array(trackShapeNumbers.length - 1).fill(''),
@@ -49,7 +49,7 @@
 	};
 
 	let parsedStats = parseXStats(targetScore.xstats);
-	let characterClass = getCharacterClass(targetScore.vehicleId);
+	let characterClass = getCharacterClass(targetScore.vehicle);
 </script>
 
 <Modal bind:showModal>
@@ -98,9 +98,11 @@
 				<b>Time submitted:</b>
 				{timeSet.toLocaleString(DateTime.DATETIME_SHORT)} <br />
 				<b>Skill Points:</b>
-				{targetScore.skillPoints} <br />
+				<!-- TODO {targetScore.skillPoints} -->
+				0
+				<br />
 				<b>Character:</b>
-				{characterList[targetScore.vehicleId]} <br />
+				{characterList[targetScore.vehicle]} <br />
 				<b>Feats:</b>
 				{targetScore.feats} <br />
 				<b>Density:</b>

@@ -1,79 +1,60 @@
-import { error, type Actions, fail } from '@sveltejs/kit';
-import type {
-	AddOrRemoveRivalResponse,
-	ExtendedUserInfo,
-	GetOwnRivalsResponse,
-	IsRivalResponse
-} from '$lib/models/UserData';
-import type { GetScoresResponse } from '$lib/models/ScoreData';
-import { loadMetadata } from '$lib/stores/metadata-store';
-import { fetcher, poster } from '$lib/utils/api.js';
-import { isAxiosError } from 'axios';
+import { error as svelteError, type Actions, fail } from '@sveltejs/kit';
+import client from '$lib/api';
 
-export async function load({ params, cookies, locals }) {
+export async function load({ params, locals, fetch }) {
 	const id: number = +params.id;
-	const userResult: ExtendedUserInfo = await loadMetadata(
-		fetch,
-		`/api/users/getUser?id=${id}&getExtendedInfo=true`
-	);
-	const authCookie = cookies.get('Authorization');
+	const userResult = await client.GET("/players/{id}", { params: { path: { id }, query: { withStats: true } }, fetch });
 
-	if (!userResult) {
-		throw error(404, 'User not found');
+	if (userResult.error) {
+		svelteError(userResult.response.status, userResult.error.error);
 	}
 
-	const latestScoresPromise: Promise<GetScoresResponse> = loadMetadata(
-		fetch,
-		`/api/scores/getScores?userId=${id}`
-	);
-	const bestScoresPromise: Promise<GetScoresResponse> = loadMetadata(
-		fetch,
-		`/api/scores/getScores?userId=${id}&scoreSort=desc`
-	);
+	const latestScores = await client.GET("/scores", { params: { query: { playerId: id, timeSort: "desc" } }, fetch });
+	const bestScores = await client.GET("/scores", { params: { query: { playerId: id, scoreSort: "desc" } }, fetch });
 
-	let rivalsAndChallengersPromise: Promise<GetOwnRivalsResponse>;
-	let isRivalPromise: Promise<IsRivalResponse>;
-
-	if (locals.user && locals.user.id == parseInt(params.id)) {
-		rivalsAndChallengersPromise = fetcher(`/api/users/getOwnRivals`, authCookie);
-	} else if (locals.user) {
-		isRivalPromise = fetcher<IsRivalResponse>(`/api/users/isRival?id=${params.id}`, authCookie);
+	if (locals.user) {
+		let ownRivals = await client.GET("/rivals/self", { fetch });
+		if (locals.user.id === id) {
+			var rivalsAndChallengers = ownRivals;
+		}
+		var isRival = ownRivals.data.rivalries.some(rival => rival.rival.id === id);
 	}
 
 	return {
-		userResult,
-		latestScoresResult: await Promise.resolve(latestScoresPromise),
-		bestScoresResult: await Promise.resolve(bestScoresPromise),
-		rivalsAndChallengers: await Promise.resolve(rivalsAndChallengersPromise),
-		isRivalResponse: await Promise.resolve(isRivalPromise)
+		userData: userResult.data,
+		latestScores: {
+			data: latestScores.data,
+			error: latestScores.error
+		},
+		bestScores: {
+			data: bestScores.data,
+			error: bestScores.error
+		},
+		rivalsAndChallengers: {
+			data: rivalsAndChallengers?.data,
+			error: rivalsAndChallengers?.error
+		},
+		isRival
 	};
 }
 
 export const actions = {
-	addRival: async ({ cookies, params }) => {
+	addRival: async ({ params, fetch }) => {
 		const id: number = +params.id;
-		const authToken = cookies.get('Authorization');
-		let addRivalResult: AddOrRemoveRivalResponse;
 
-		try {
-			addRivalResult = await poster('/api/users/addRival', { id }, authToken);
-		} catch (e) {
-			if (isAxiosError(e) && e.response)
-				return fail(e.response?.status, { success: false, message: e.response.data.error });
+		const addRivalResult = await client.POST("/rivals/add", { body: { rivalId: id }, fetch });
+		if (addRivalResult.error) {
+			return fail(addRivalResult.response.status, { success: false, message: addRivalResult.error.error });
 		}
-		return { success: addRivalResult.success };
+		return { success: true };
 	},
-	removeRival: async ({ cookies, params }) => {
+	removeRival: async ({ params, fetch }) => {
 		const id: number = +params.id;
-		const authToken = cookies.get('Authorization');
-		let removeRivalResult: AddOrRemoveRivalResponse;
 
-		try {
-			removeRivalResult = await poster('/api/users/removeRival', { id }, authToken);
-		} catch (e) {
-			if (isAxiosError(e) && e.response)
-				return fail(e.response?.status, { success: false, message: e.response.data.error });
+		const removeRivalResult = await client.DELETE("/rivals/remove", { body: { rivalId: id }, fetch });
+		if (removeRivalResult.error) {
+			return fail(removeRivalResult.response.status, { success: false, message: removeRivalResult.error.error });
 		}
-		return { success: removeRivalResult.success };
+		return { success: true };
 	}
 } satisfies Actions;

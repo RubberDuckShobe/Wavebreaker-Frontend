@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { UserInfo } from '$lib/models/UserData';
+	import type { components } from '$lib/api/wavebreaker';
 
-	export let targetUser: UserInfo;
+	export let targetUser: components['schemas']['PlayerPublic'];
 </script>
 
 <a
@@ -15,9 +15,9 @@
 	</div>
 	<h1
 		class="break-all font-semibold
-            {targetUser.accountType == 3 &&
+            {targetUser.accountType == 2 &&
 			'text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-primary'}
-            {targetUser.accountType == 2 && 'text-error'}"
+            {targetUser.accountType == 1 && 'text-error'}"
 	>
 		{targetUser.username}
 	</h1>

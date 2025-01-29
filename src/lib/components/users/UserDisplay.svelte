@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { UserInfo } from '$lib/models/UserData';
+	import type { components } from '$lib/api/wavebreaker';
 	import UserRoleBadge from './UserRoleBadge.svelte';
 
-	export let targetUser: UserInfo;
+	export let targetUser: components['schemas']['PlayerPublic'];
 </script>
 
 <div
